@@ -7,7 +7,18 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        pass
+        ram = [0] *256
+        registers =[0] *8
+        pc =0
+        
+#Inside the CPU, there are two internal registers used for memory operations: 
+ #mdr- data that was read/to write
+ #mar- register address being read/written to
+ #ram_read:ACCEPT ADDRESS TO READ-- and RETURNS VALUE @ address
+ #ram_write:ACCEPT VALYE TO WRITE AND ADDRESS TO WRITE TO
+    def ram_read():
+    def ram_write():
+
 
     def load(self):
         """Load a program into memory."""
