@@ -7,10 +7,10 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        ram = [0] *256
-        register =[0] *8
-        pc =0
-        
+        self.ram = [0] *256
+        self.register =[0] *8
+        self.pc =0
+        self.running = True
 #Inside the CPU, there are two internal registers used for memory operations: 
  #mdr- data that was read/to write
  #mar- register address being read/written to
@@ -78,4 +78,12 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+#implement code to run
+#read memory address
+#store memory address in IR
+##using ram_read(), read the bytes at PC+1 and PC+2 from RAM into variables operand_a and operand_b in case the instruction needs them.
+#set instruction for what to do 
+#set pc pointer to next instruction(depending how many bytes previous action took)
+        while running:
+            ir= self.ram_read(self.pc)
+        return ir
