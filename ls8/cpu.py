@@ -10,7 +10,6 @@ class CPU:
         self.ram = [0] *256
         self.register =[0] *8
         self.pc =0
-        self.running = True
 #Inside the CPU, there are two internal registers used for memory operations: 
  #mdr- data that was read/to write
  #mar- register address being read/written to
@@ -43,26 +42,26 @@ class CPU:
             memory[address] =v
     
 
-        print(memory[:15]) #print 1st 15 in mem
+        print(memory[0:15]) #print 1st 15 in mem
         sys.exit(0)
 
-'''
+
         # For now, we've just hardcoded a program:
 
-        program = [
-            # From print8.ls8
-            0b10000010, # LDI R0,8
-            0b00000000,
-            0b00001000,
-            0b01000111, # PRN R0
-            0b00000000,
-            0b00000001, # HLT
-        ]
+        #program = [
+         #   # From print8.ls8
+          #  0b10000010, # LDI R0,8
+           # 0b00000000,
+           # 0b00001000,
+           # 0b01000111, # PRN R0
+           # 0b00000000,
+           # 0b00000001, # HLT
+        #]
 
-        for instruction in program:
-            self.ram[address] = instruction
-            address += 1
-'''
+      #  for instruction in program:
+      #      self.ram[address] = instruction
+      #      address += 1
+
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
