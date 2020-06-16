@@ -84,7 +84,7 @@ class CPU:
 ##using ram_read(), read the bytes at PC+1 and PC+2 from RAM into variables operand_a and operand_b in case the instruction needs them.
 #set instruction for what to do 
 #set pc pointer to next instruction(depending how many bytes previous action took)
-#LDI(set value of register to int)=2byte op?(register, value)
+#LDI(set value of register to int)=3byte op?(register, value)
 #HLT=1byte op
 #PRN=2byte op?(get register, get value)
 HLT =0b00000001
@@ -99,6 +99,11 @@ running =True
                 #LDI op:var, reg, value
                 reg=self.ram[self.pc +1]
                 value =self.ram[pc+2]
+                register[reg] =value
+                self.pc+=3
+                
+                #PRN op:
+            elif:
 
             elif ir == HLT:
                 running =False
