@@ -84,6 +84,24 @@ class CPU:
 ##using ram_read(), read the bytes at PC+1 and PC+2 from RAM into variables operand_a and operand_b in case the instruction needs them.
 #set instruction for what to do 
 #set pc pointer to next instruction(depending how many bytes previous action took)
+#LDI(set value of register to int)=2byte op?(register, value)
+#HLT=1byte op
+#PRN=2byte op?(get register, get value)
+HLT =0b00000001
+LDI =0b10000010
+PRN=0b01000111
+running =True
+
         while running:
             ir= self.ram_read(self.pc)
-        return ir
+
+            if ir ==LDI:
+                #LDI op:var, reg, value
+                reg=self.ram[self.pc +1]
+                value =self.ram[pc+2]
+
+            elif ir == HLT:
+                running =False
+                print(f'Unknown command {ir} at address {pc}')
+                sys.exit(1)
+
