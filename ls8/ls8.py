@@ -4,7 +4,7 @@
 
 import sys
 from cpu import *
-filename = sys.argv[1]
+
 
 cpu = CPU()
 

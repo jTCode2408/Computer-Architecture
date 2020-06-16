@@ -16,36 +16,30 @@ class CPU:
 
  #ram_read:ACCEPT ADDRESS TO READ-- and RETURNS VALUE @ address
  #ram_write:ACCEPT VALUE TO WRITE AND ADDRESS TO WRITE TO
-    def ram_read(mdr):
-        return self.ram[mdr]
+    def ram_read(self, MAR):
+        return self.ram[MAR]
 
-    def ram_write(mar, mdr):
-        self.ram[mdr] =value 
-        self.register[mar]=self.ram[value]
+    def ram_write(MAR, MDR):
+        self.ram[MAR] =MDR 
 
 
     def load(self):
         """Load a program into memory."""
 
         address = 0
-        program =[]
         memory =self.ram
         filename = sys.argv[1]
         #to catch program spaces, empty lines, comments, etc
         with open(filename) as f:
-            for address, line in enumerate(f):
-                line =line.split('#')
-                try:
-                    v =int(line[0] , 2) #int takes base of string as arg(use binary[2])
-                except ValueError:
+            for line in f:
+                v =line.split('#')[0].strip()
+                if v == '':
                     continue
-            memory[address] =v
+                value =int(v,2)
+                    #int takes base of string as arg(use binary[2])
+                memory[address] =value
+                address+=1
     
-
-        print(memory[0:15]) #print 1st 15 in mem
-        sys.exit(0)
-
-
         # For now, we've just hardcoded a program:
 
         #program = [
@@ -58,9 +52,9 @@ class CPU:
            # 0b00000001, # HLT
         #]
 
-      #  for instruction in program:
-      #      self.ram[address] = instruction
-      #      address += 1
+        #for instruction in program:
+         #   self.ram[address] = instruction
+          #  address += 1
 
 
     def alu(self, op, reg_a, reg_b):
@@ -116,19 +110,19 @@ class CPU:
 
             if ir ==LDI:
                 #LDI op:var, reg, value
-                reg=self.ram[self.pc +1]
-                value =self.ram[pc+2]
-                register[reg] =value
+                self.register[operand_a] =operand_b
                 self.pc+=3
                 
                 #PRN op:
             elif ir == PRN:
-                reg =self.ram[self.pc +1]
-                print(register[reg])
-                pc+=2
+                print(self.register[operand_a])
+                self.pc+=2
 
             elif ir == HLT:
                 running =False
+                self.pc+1
+                sys.exit(0)
+            else:
                 print(f'Unknown command {ir} at address {pc}')
                 sys.exit(1)
 
