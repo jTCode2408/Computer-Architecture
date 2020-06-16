@@ -87,13 +87,30 @@ class CPU:
 #LDI(set value of register to int)=3byte op?(register, value)
 #HLT=1byte op
 #PRN=2byte op?(get register, get value)
-HLT =0b00000001
-LDI =0b10000010
-PRN=0b01000111
-running =True
+        HLT =0b00000001
+        LDI =0b10000010
+        PRN=0b01000111
+        running =True
+        address =0
+        memory =self.ram
+#to catch program spaces, empty lines, comments, etc
+        with open(program) as f:
+            for address, line in enumerate(f):
+                line =line.split('#')
+                try:
+                    v =int(line[0] , 2) #int takes base of string as arg(use binary[2])
+                except ValueError:
+                    continue
+            memory[address] =v
+    
+
+        print(memory[:15]) #print 1st 15 in mem
+        sys.exit(0)
 
         while running:
             ir= self.ram_read(self.pc)
+            operand_a=self.ram_read(self.pc+1)
+            operand_b=self.ram_read(self.pc+2)
 
             if ir ==LDI:
                 #LDI op:var, reg, value
@@ -103,7 +120,10 @@ running =True
                 self.pc+=3
                 
                 #PRN op:
-            elif:
+            elif ir == PRN:
+                reg =self.ram[self.pc +1]
+                print(register[reg])
+                pc+=2
 
             elif ir == HLT:
                 running =False
