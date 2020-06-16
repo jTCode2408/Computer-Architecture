@@ -29,7 +29,24 @@ class CPU:
         """Load a program into memory."""
 
         address = 0
+        program =[]
+        memory =self.ram
+        filename = sys.argv[1]
+        #to catch program spaces, empty lines, comments, etc
+        with open(filename) as f:
+            for address, line in enumerate(f):
+                line =line.split('#')
+                try:
+                    v =int(line[0] , 2) #int takes base of string as arg(use binary[2])
+                except ValueError:
+                    continue
+            memory[address] =v
+    
 
+        print(memory[:15]) #print 1st 15 in mem
+        sys.exit(0)
+
+'''
         # For now, we've just hardcoded a program:
 
         program = [
@@ -45,7 +62,7 @@ class CPU:
         for instruction in program:
             self.ram[address] = instruction
             address += 1
-
+'''
 
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
@@ -91,21 +108,7 @@ class CPU:
         LDI =0b10000010
         PRN=0b01000111
         running =True
-        address =0
-        memory =self.ram
-#to catch program spaces, empty lines, comments, etc
-        with open(program) as f:
-            for address, line in enumerate(f):
-                line =line.split('#')
-                try:
-                    v =int(line[0] , 2) #int takes base of string as arg(use binary[2])
-                except ValueError:
-                    continue
-            memory[address] =v
-    
 
-        print(memory[:15]) #print 1st 15 in mem
-        sys.exit(0)
 
         while running:
             ir= self.ram_read(self.pc)

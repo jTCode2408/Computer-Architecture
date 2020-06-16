@@ -78,15 +78,7 @@ while running:
 
 # Day 2:
 ## EM w Load Support:
-"""
-Beej Computer Emulator
-​
-Software that pretends to be hardware
-​
-Turing Complete--it can solve any problem for which there is an algorithm.
-"""
-​
-"""
+
 Memory--like a big array
 ​
 "Index into the memory array" == "address" == "pointer"
