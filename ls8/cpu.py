@@ -10,35 +10,31 @@ class CPU:
         self.ram = [0] *256
         self.register =[0] *8
         self.pc =0
+        
 #Inside the CPU, there are two internal registers used for memory operations: 
  #mdr- data that was read/to write
  #mar- register address being read/written to
 
  #ram_read:ACCEPT ADDRESS TO READ-- and RETURNS VALUE @ address
  #ram_write:ACCEPT VALUE TO WRITE AND ADDRESS TO WRITE TO
-    def ram_read(self, MAR):
-        return self.ram[MAR]
+    def ram_read(self, position):
+        return self.ram[position]
 
-    def ram_write(MAR, MDR):
-        self.ram[MAR] =MDR 
+    def ram_write(self, position, value):
+        self.ram[position] =value
 
 
     def load(self):
         """Load a program into memory."""
 
+        filename = f
+        program = open(f"{filename}", "r")
         address = 0
-        memory =self.ram
-        filename = sys.argv[1]
-        #to catch program spaces, empty lines, comments, etc
-        with open(filename) as f:
-            for line in f:
-                v =line.split('#')[0].strip()
-                if v == '':
-                    continue
-                value =int(v,2)
-                    #int takes base of string as arg(use binary[2])
-                memory[address] =value
-                address+=1
+        for line in program:
+            if line[0] == "0" or line[0] == "1":
+                command = line.split("#", 1)[0]
+                self.ram[address] = int(command, 2)
+                address += 1
     
         # For now, we've just hardcoded a program:
 
@@ -62,7 +58,7 @@ class CPU:
 
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
-        #elif op == "SUB": etc
+        #elif op == "MULT": etc
         else:
             raise Exception("Unsupported ALU operation")
 
