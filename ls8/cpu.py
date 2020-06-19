@@ -44,6 +44,7 @@ class CPU:
         self.pc+=1
 
     def MULT(self):
+        self.alu('MULT')
         
 
         
@@ -60,16 +61,16 @@ class CPU:
         self.ram[position] =value
 
 
-    def load(self):
+    def load(self, f):
         """Load a program into memory."""
 
-        filename = f
-        program = open(f"{filename}", "r")
+        file = f
+        program = open(f"{file}", "r")
         address = 0
         for line in program:
             if line[0] == "0" or line[0] == "1":
-                command = line.split("#", 1)[0]
-                self.ram[address] = int(command, 2)
+                op = line.split("#", 1)[0]
+                self.ram[address] = int(op, 2)
                 address += 1
     
         # For now, we've just hardcoded a program:
@@ -136,9 +137,6 @@ class CPU:
         while self.running:
             ir= self.ram_read(self.pc)
             #need to  call fn
+            self.ops(ir)
 
-        
-            else:
-                print(f'Unknown command {ir} at address {pc}')
-                sys.exit(1)
 
