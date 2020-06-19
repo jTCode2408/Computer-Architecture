@@ -11,17 +11,20 @@ class CPU:
         self.ram = [0] *256
         self.reg =[0] *8
         self.pc =0
+        self.stackp=7
 
     def ops(self, operation):
         branch_table ={
             0b10000010: self.LDI,
             0b01000111: self.PRN,
             0b10100010: self.MULT,
-            0b00000001: self.HLT
+            0b00000001: self.HLT,
+            0b01000101: self.PUSH,
+            0b01000110: self.POP
         }
 
         if operation in branch_table:
-            branch_table[operation]
+            branch_table[operation]()
 
         else:
             raise Exception("Unsupported operation")
@@ -44,7 +47,29 @@ class CPU:
         self.pc+=1
 
     def MULT(self):
-        self.alu('MULT')
+        self.alu('MULT', self.pc+1, self.pc+2)
+        self.pc+=3
+
+    def PUSH():
+        #decrement stackp
+        self.stackp -=1
+        #set reg place
+        reg = self.ram[self.pc + 1]
+        #set val as reg splace
+        value = self.reg[reg]
+        #stackp is value
+        self.ram[self.stackp] = value
+        #move pc pointer
+        self.pc += 2
+
+    def POP():
+        value = self.ram[self.stackp]
+        #get next ram
+        self.reg[self.ram[self.pc + 1]] = value
+        #increment stackp
+        self.stackp +=1
+        self.pc += 2
+
         
 
         
