@@ -11,13 +11,41 @@ class CPU:
         self.ram = [0] *256
         self.reg =[0] *8
         self.pc =0
-        self.branch_table ={
-            0b10000010: LDI,
-            0b01000111: PRN,
-            0b10100010: MULT,
-            0b00000001: HLT
+
+    def ops(self, operation):
+        branch_table ={
+            0b10000010: self.LDI,
+            0b01000111: self.PRN,
+            0b10100010: self.MULT,
+            0b00000001: self.HLT
         }
+
+        if operation in branch_table:
+            branch_table[operation]
+
+        else:
+            raise Exception("Unsupported operation")
+        sys.exit(1)
+
         
+    def LDI(self):
+        reg=self.ram_read(self.pc+1)
+        value = self.ram_read(self.pc+2)
+        self.reg[reg] =value
+        self.pc+=3
+
+    def PRN(self):
+        reg=self.ram_read(self.pc+1)
+        print(self.reg[reg])
+        self.pc+=2
+
+    def HLT(self):
+        self.running =False
+        self.pc+=1
+
+    def MULT(self):
+        
+
         
 #Inside the CPU, there are two internal registers used for memory operations: 
  #mdr- data that was read/to write
@@ -107,23 +135,9 @@ class CPU:
 
         while self.running:
             ir= self.ram_read(self.pc)
-            operand_a=self.ram_read(self.pc+1)
-            operand_b=self.ram_read(self.pc+2)
+            #need to  call fn
 
-            if ir ==LDI:
-                #LDI op:var, reg, value
-                self.register[operand_a] =operand_b
-                self.pc+=3
-                
-                #PRN op:
-            elif ir == PRN:
-                print(self.register[operand_a])
-                self.pc+=2
-
-            elif ir == HLT:
-                running =False
-                self.pc+1
-                sys.exit(0)
+        
             else:
                 print(f'Unknown command {ir} at address {pc}')
                 sys.exit(1)
