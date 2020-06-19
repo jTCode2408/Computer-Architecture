@@ -8,5 +8,5 @@ from cpu import *
 
 cpu = CPU()
 
-cpu.load(filename)
+cpu.load('examples/print.ls8')
 cpu.run()

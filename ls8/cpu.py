@@ -7,9 +7,17 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
+        self.running=False
         self.ram = [0] *256
-        self.register =[0] *8
+        self.reg =[0] *8
         self.pc =0
+        self.branch_table ={
+            0b10000010: LDI,
+            0b01000111: PRN,
+            0b10100010: MULT,
+            0b00000001: HLT
+        }
+        
         
 #Inside the CPU, there are two internal registers used for memory operations: 
  #mdr- data that was read/to write
@@ -58,7 +66,8 @@ class CPU:
 
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
-        #elif op == "MULT": etc
+        elif op == "MULT":
+            self.reg[self.ram[reg_a]] * self.reg[self.ram[reg_b]]
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -93,13 +102,10 @@ class CPU:
 #LDI(set value of register to int)=3byte op?(register, value)
 #HLT=1byte op
 #PRN=2byte op?(get register, get value)
-        HLT =0b00000001
-        LDI =0b10000010
-        PRN=0b01000111
-        running =True
+        
+        self.running =True
 
-
-        while running:
+        while self.running:
             ir= self.ram_read(self.pc)
             operand_a=self.ram_read(self.pc+1)
             operand_b=self.ram_read(self.pc+2)
